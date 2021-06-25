@@ -1,0 +1,26 @@
+# "2010-09-09" is the latest and only valid version.
+# See https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+
+# This is how the `sam` commands know that this file contains SAM syntax, rather than just regular
+# CloudFormation syntax.
+# It looks to me like 2016-10-31 is the only version, though no documentation _explicitly_ said this
+# See https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  FancyLambda:
+    # Notice that this is AWS::Serverless::Function, not an AWS::Lambda::Function.
+    # SAM transforms this into a Lambda.
+    # The syntax for AWS::Serverless::Function is simpler than that of AWS:Lambda::Function
+    # For example, with AWS:Lambda::Function you must explicitly specify the S3 bucket zipped up
+    # code, whereas SAM and AWS::Serverless::Function just see your code in your directory, package
+    # it up for you, and upload to an AWS managed bucket
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Tutorial
+      # Just specify a local dir. `sam build` and `sam deploy` package it all up and upload to S3 for you.
+      CodeUri: lambda-code/
+      # Syntax = FILE_NAME.FUNCTION_NAME
+      Handler: app.myFunc
+      Runtime: nodejs14.x

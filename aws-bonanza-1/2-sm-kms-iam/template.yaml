@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  MySecret:
+    Type: String
+  KmsCmkId:
+    Type: String
+
+Resources:
+  FancySecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: "Houli SAM and IAM tutorial"
+      SecretString: !Ref MySecret
+      KmsKeyId: !Ref KmsCmkId
